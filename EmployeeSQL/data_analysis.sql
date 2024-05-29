@@ -5,7 +5,7 @@ SELECT employees.emp_no,
 	employees.sex,
 	salaries.salary
 FROM employees
-INNER JOIN salaries ON
+JOIN salaries ON
 employees.emp_no = salaries.emp_no;
 
 
@@ -26,9 +26,9 @@ SELECT dept_manager.dept_no,
 	employees.first_name,
 	employees.last_name
 FROM dept_manager
-INNER JOIN departments ON
+JOIN departments ON
 dept_manager.dept_no = departments.dept_no
-INNER JOIN employees ON
+JOIN employees ON
 dept_manager.emp_no = employees.emp_no;
 
 
@@ -40,9 +40,54 @@ SELECT dept_emp.emp_no,
 	employees.first_name,
 	employees.last_name
 FROM dept_emp
-INNER JOIN departments ON
+JOIN departments ON
 dept_emp.dept_no = departments.dept_no
-INNER JOIN employees ON
+JOIN employees ON
 dept_emp.emp_no = employees.emp_no;
 	
+
+--5. List first name, last name, and sex of each employee whose first name 
+--is Hercules and whose last name begins with the letter B.
+Select employees.first_name,
+	employees.last_name,
+	employees.sex
+From employees
+WHERE first_name = 'Hercules' 
+AND LEFT(last_name, 1) = 'B';
+
+
+--6. List each employee in the Sales department, including their employee number, 
+--last name, and first name.
+SELECT employees.emp_no,
+	employees.last_name,
+	employees.first_name
+FROM employees
+JOIN dept_emp ON 
+employees.emp_no = dept_emp.emp_no
+JOIN departments ON
+dept_emp.dept_no = departments.dept_no
+WHERE departments.dept_name = 'Sales';
+
+
+
+--7. List each employee in the Sales and Development departments, including their 
+--employee number, last name, first name, and department name.
+SELECT employees.emp_no,
+	employees.last_name,
+	employees.first_name,
+	departments.dept_name
+FROM employees
+JOIN dept_emp ON 
+employees.emp_no = dept_emp.emp_no
+JOIN departments ON
+dept_emp.dept_no = departments.dept_no
+WHERE departments.dept_name IN ('Sales', 'Development');
+
+
+--8. List the frequency counts, in descending order, of all the employee last names 
+--(that is, how many employees share each last name).
+SELECT last_name, COUNT(last_name) AS "Last Name Count"
+FROM employees
+GROUP BY last_name
+ORDER BY "Last Name Count" DESC;
 
